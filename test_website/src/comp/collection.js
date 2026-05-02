@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// I recommend creating a collection.css, but you can add this to home.css
 import './collection.css'; 
 
 const FIREBASE_INVENTORY_URL = 'https://inventory-aff70-default-rtdb.firebaseio.com/BookDetail.json';
@@ -32,6 +31,14 @@ const Collection = () => {
   return (
     <div className="collection-page">
       <h2 className="collection-title">Book Collection</h2>
+      
+      {/* --- ADDED THIS LINE BELOW --- */}
+      {!loading && !error && (
+        <p className="collection-summary">
+          Total Books in Collection: <strong>{books.length}</strong>
+        </p>
+      )}
+      {/* ---------------------------- */}
       
       {loading && <p className="status-msg">Loading inventory...</p>}
       {error && <p className="error-msg">{error}</p>}

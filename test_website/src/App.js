@@ -27,7 +27,7 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter> {/* Ensure basename is set if your app is not served from root */}
       <Nav />
       {/* Ensure Rout is called without needing props if Shop handles its own data */}
       <Rout /> 

@@ -14,8 +14,9 @@ const Nav = () => {
     const { search, setSearch } = useSearch();
     const [showProfile, setShowProfile] = useState(false);
     const { user, isAuthenticated } = useAuth0();
-    const adminList = (process.env.REACT_APP_ADMIN_EMAILS || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
-    const isAdmin = isAuthenticated && user && adminList.includes((user.email || '').toLowerCase());
+    // Hardcoded admin email for private page
+    const ADMIN_EMAIL = "s1373874@live.hkmu.edu.hk";
+    const isAdmin = isAuthenticated && user && (user.email === ADMIN_EMAIL);
     return (
         <>
         <div className='header'>
@@ -67,7 +68,11 @@ const Nav = () => {
                         <li><Link to='/collection' className='link'>Collection</Link></li>
                         <li><Link to='/about' className='link'>About</Link></li>
                         {/* <li><Link to='/chat' className='link'>Chat</Link></li> */}
-                        {isAdmin ? <li><Link to='/admin' className='link'>Admin</Link></li> : null}
+                                                {isAdmin && (
+                                                    <li>
+                                                        <Link to='/admin' className='link'>Admin </Link>
+                                                    </li>
+                                                )}
                     </ul>
                 </div>
             </div>

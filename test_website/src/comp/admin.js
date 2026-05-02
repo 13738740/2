@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { db } from './firebase'; // Use your existing firebase config
-import { ref, push } from "firebase/database"; 
+import { db } from './firebase';
+import { ref, push } from "firebase/database";
 import './admin.css';
 
 const Admin = () => {
@@ -9,8 +9,9 @@ const Admin = () => {
   const [form, setForm] = useState({ Book: '', Author: '', ISBN: '', Stock: '', Price: '', Cover: '' });
   const [error, setError] = useState(null);
 
-  // --- CHANGE THIS TO YOUR ACTUAL ADMIN EMAIL ---
-  const ADMIN_EMAIL = "s1373874@live.hkmu.edu.hk"; 
+  // --- Hardcoded admin email for private page ---
+  const ADMIN_EMAIL = "s1373874@live.hkmu.edu.hk";
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,32 +51,48 @@ const Admin = () => {
 
   if (isLoading) return <div>Loading...</div>;
 
-  // VERIFICATION: Check if authenticated AND if email matches admin
+  // Only show modal/page if authenticated and admin
   if (!isAuthenticated || user.email !== ADMIN_EMAIL) {
     return (
       <div className="admin-container">
         <h2>Access Denied</h2>
         <p>You do not have permission to access the admin dashboard.</p>
+        <p>Only the admin ({ADMIN_EMAIL}) can access this page.</p>
       </div>
     );
   }
 
+  // Show a button to open the private admin modal/page
+  if (!showModal) {
+    return (
+      <div className="admin-container">
+        <h2>Welcome, Admin</h2>
+        <p>Click below to open your private admin page.</p>
+        <button className="admin-open-btn" onClick={() => setShowModal(true)}>
+          Open Admin Dashboard
+        </button>
+      </div>
+    );
+  }
+
+  // Private admin modal/page
   return (
-    <div className="admin-container">
-      <h2>Admin Dashboard</h2>
-      <p>Welcome back, Admin ({user.email}).</p>
-      
-      <form className="admin-form" onSubmit={handleSend}>
-        <div className="input-group"><label>Book Title</label><input name="Book" value={form.Book} onChange={handleChange} /></div>
-        <div className="input-group"><label>Author</label><input name="Author" value={form.Author} onChange={handleChange} /></div>
-        <div className="input-group"><label>ISBN</label><input name="ISBN" value={form.ISBN} onChange={handleChange} /></div>
-        <div className="input-group"><label>Stock</label><input name="Stock" type="number" value={form.Stock} onChange={handleChange} /></div>
-        <div className="input-group"><label>Price</label><input name="Price" type="number" step="0.01" value={form.Price} onChange={handleChange} /></div>
-        <div className="input-group"><label>Cover URL</label><input name="Cover" value={form.Cover} onChange={handleChange} /></div>
-        
-        {error && <div className="error-msg">{error}</div>}
-        <button type="submit" className="admin-submit-btn">Add Book to Inventory</button>
-      </form>
+    <div className="admin-modal-overlay">
+      <div className="admin-modal">
+        <button className="admin-close-btn" onClick={() => setShowModal(false)}>&times;</button>
+        <h2>Admin Dashboard</h2>
+        <p>Welcome back, Admin ({user.email}).</p>
+        <form className="admin-form" onSubmit={handleSend}>
+          <div className="input-group"><label>Book Title</label><input name="Book" value={form.Book} onChange={handleChange} /></div>
+          <div className="input-group"><label>Author</label><input name="Author" value={form.Author} onChange={handleChange} /></div>
+          <div className="input-group"><label>ISBN</label><input name="ISBN" value={form.ISBN} onChange={handleChange} /></div>
+          <div className="input-group"><label>Stock</label><input name="Stock" type="number" value={form.Stock} onChange={handleChange} /></div>
+          <div className="input-group"><label>Price</label><input name="Price" type="number" step="0.01" value={form.Price} onChange={handleChange} /></div>
+          <div className="input-group"><label>Cover URL</label><input name="Cover" value={form.Cover} onChange={handleChange} /></div>
+          {error && <div className="error-msg">{error}</div>}
+          <button type="submit" className="admin-submit-btn">Add Book to Inventory</button>
+        </form>
+      </div>
     </div>
   );
 };
