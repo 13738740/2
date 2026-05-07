@@ -1,11 +1,3 @@
 import React from 'react';
-
-const Route = () => {
-  return (
-    <nav>
-      <p>Navigation Placeholder</p>
-    </nav>
-  );
-};
-
+const Route = () => <div>Routes</div>;
 export default Route;
