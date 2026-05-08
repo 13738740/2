@@ -1,7 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
-import { db } from '../firebase'; // adjust path as needed
 const firebaseConfig = {
   apiKey: "AIzaSyAuKNYLnS8gacYHlQEtMCevJC7IMDsm4Oo",
   authDomain: "inventory-aff70.firebaseapp.com",

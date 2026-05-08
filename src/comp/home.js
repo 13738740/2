@@ -8,7 +8,8 @@ const FIREBASE_INVENTORY_URL = 'https://inventory-aff70-default-rtdb.firebaseio.
 const Home = () => {
     const [dataList2, setDataList] = useState([]);
     const [loading2, setLoading] = useState(true);
-    const { search: search2 } = useSearch();
+    // Destructure 'search' but provide a fallback of an empty string
+    const { search: search2 = "" } = useSearch() || {}; 
     const [error2, setError2] = useState(null);
     
     const fetchMessages2 = async () => {
@@ -38,6 +39,7 @@ const Home = () => {
         fetchMessages2();
     }, []);
 
+    // Safety check for search2
     const q = (search2 || '').toLowerCase();
     const filtered = dataList2.filter((item2) => {
         const book = (item2.Book || '').toLowerCase();
@@ -53,24 +55,21 @@ const Home = () => {
                 <p>Explore our collection of books. Use the search box above to find books by title, author, or ISBN.</p>
             </div>
 
-            {/* Status messages placed outside the grid for clean look */}
-{/* Status messages section */}
             <div className="search-status" style={{ padding: '0 60px', color: '#4b3621', minHeight: '30px' }}>
                 {loading2 && <p>Loading...</p>}
                 {error2 && <p style={{ color: 'crimson' }}>{error2}</p>}
                 
-                {/* This line now ONLY shows if the search bar is empty AND we aren't loading */}
-                {!loading2 && !search2.trim() && (
+                {/* ADDED OPTIONAL CHAINING HERE: search2?.trim() */}
+                {!loading2 && !search2?.trim() && (
                     <p>Type in the search bar to find your favorite books.</p>
                 )}
 
-                {/* Shows "No results" only if the user has typed something and nothing was found */}
-                {search2.trim() && filtered.length === 0 && !loading2 && (
+                {/* ADDED OPTIONAL CHAINING HERE: search2?.trim() */}
+                {search2?.trim() && filtered.length === 0 && !loading2 && (
                     <p>No results found for "{search2}"</p>
                 )}
             </div>
 
-            {/* Results Grid - Using your display2/item2 CSS classes */}
             <div className="display2">
                 {filtered.map((item2) => (
                     <div key={item2.id} className="item2">
