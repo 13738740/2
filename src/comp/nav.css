@@ -13,7 +13,7 @@
     max-width: 100%;
     display: flex;
     padding: 10px 10px;
-    background: #d9dca1;
+    background: #e1e2ce;
 }
 .header .top_header .icon{
     background: none;
@@ -191,11 +191,11 @@
 }
 /* This applies the Top Header color to the entire page background */
 body {
-    background-color: #C2AB7E; 
+    background-color: #d6bea8; 
     min-height: 100vh;
 }
 
 /* OR, if you only want it directly under the header but not the whole page */
 .shop-page-layout, .main-content, .admin-container , .collection-page, .about-page, .home {
-    background-color: #C2AB7E;
+    background-color: #d6bea8;
 }

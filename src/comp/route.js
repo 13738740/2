@@ -35,7 +35,7 @@ const Rout = () => { // Removed 'shop' prop as it's not being used
             <Route path='/shop' element={<Shop />} />
             <Route path='/collection' element={<Collection />} />
             <Route path='/about' element={<About />} />
-            {/*<Route path='/chat' element={<Chat />} />*/}
+            <Route path='/chat' element={<Chat />} />
             {/* Protected Admin Route */}
             <Route path='/admin' element={
                 <AdminRoute>
